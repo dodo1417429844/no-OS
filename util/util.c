@@ -84,6 +84,35 @@ uint32_t find_last_set_bit(uint32_t word)
 }
 
 /**
+ * Locate the closest element in an array.
+ */
+uint32_t find_closest(int32_t val,
+		      const int32_t *array,
+		      uint32_t size)
+{
+	uint32_t diff = abs((abs(array[0]) - abs(val)));
+	uint32_t ret = 0;
+	uint32_t i;
+
+	for (i = 1; i < size; i++) {
+		if (abs((abs(array[i]) - abs(val))) < diff) {
+			diff = abs((abs(array[i]) - abs(val)));
+			ret = i;
+		}
+	}
+
+	return ret;
+}
+
+/**
+ * Shift the value and apply the specified mask.
+ */
+uint32_t field_prep(uint32_t mask, uint32_t val)
+{
+	return (val << find_first_set_bit(mask)) & mask;
+}
+
+/**
  * Get a field specified by a mask from a word.
  */
 uint32_t field_get(uint32_t mask, uint32_t word)
